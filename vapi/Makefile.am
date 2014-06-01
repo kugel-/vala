@@ -347,7 +347,6 @@ GIDL_BINDINGS = \
 	gstreamer-tag-0.10 \
 	gstreamer-video-0.10 \
 	gtk+-2.0 \
-	gtk+-3.0 \
 	gtksourceview-2.0 \
 	hildon-1 \
 	hildon-fm-2 \
@@ -411,6 +410,8 @@ GIR_BINDINGS = \
 	geocode-glib-1.0 \
 	gio-2.0 \
 	gobject-introspection-1.0 \
+	gtk+-3.0 \
+	gtksourceview-3.0 \
 	gudev-1.0 \
 	json-glib-1.0 \
 	libgdata \
@@ -662,7 +663,7 @@ gtk+-2.0:
 	$(GENVAPI) --library $(srcdir)/gtk+-2.0 $(PACKAGESDIR)/gtk+-2.0/gtk+-2.0-custom.vala $(PACKAGESDIR)/gtk+-2.0/gtk+-2.0.gi
 
 gtk+-3.0:
-	$(GENVAPI) --library $(srcdir)/gtk+-3.0 $(PACKAGESDIR)/gtk+-3.0/gtk+-3.0-custom.vala $(PACKAGESDIR)/gtk+-3.0/gtk+-3.0.gi
+	$(GENVAPI) --library $(srcdir)/gtk+-3.0 --pkg gio-2.0 --metadatadir $(METADATADIR) $(METADATADIR)/Gtk-3.0-custom.vala $(GIRDIR)/Gtk-3.0.gir
 
 gtksourceview-2.0:
 	$(GENVAPI) --library $(srcdir)/gtksourceview-2.0 $(PACKAGESDIR)/gtksourceview-2.0/gtksourceview-2.0.gi

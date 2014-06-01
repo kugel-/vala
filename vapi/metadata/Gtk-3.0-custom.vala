@@ -1,29 +1,76 @@
-/* gtk+-2.0.vala
- *
- * Copyright (C) 2006-2008  Jürg Billeter
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
-
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
-
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
- *
- * Author:
- * 	Jürg Billeter <j@bitron.ch>
- */
-
 namespace Gtk {
-	[CCode (type_id = "gtk_accel_group_get_type ()")]
-	public class AccelGroup {
-		public Gtk.AccelKey* find (Gtk.AccelGroupFindFunc find_func);
+	[Deprecated (since = "3.10")]
+	public delegate void ActionCallback (Action action);
+	public delegate bool AccelGroupActivate (Gtk.AccelGroup accel_group, GLib.Object acceleratable, uint keyval, Gdk.ModifierType modifier);
+	public delegate bool AccelGroupFindFunc (Gtk.AccelKey key, GLib.Closure closure);
+	public delegate void RadioActionCallback (Gtk.Action action, Gtk.Action current);
+
+	[Compact]
+	class BindingEntry {
+		public static void add_signal (Gtk.BindingSet binding_set, uint keyval, Gdk.ModifierType modifiers, string signal_name, uint n_args, ...);
+	}
+
+	[Compact]
+	public class BindingSet {
+		[CCode (has_construct_function = false)]
+		public BindingSet (string set_name);
+	}
+
+	public abstract class Container : Gtk.Widget {
+		[CCode (vfunc_name = "forall")]
+		[NoWrapper]
+		public virtual void forall_internal (bool include_internal, Gtk.Callback callback);
+		[HasEmitter]
+		public virtual signal void set_focus_child (Gtk.Widget? child);
+	}
+
+	public class CssProvider : GLib.Object {
+		public bool load_from_data (string data, ssize_t length = -1) throws GLib.Error;
+	}
+
+	[Compact]
+	public class SelectionData {
+		[CCode (array_length_pos = 0.1, cname = "gtk_selection_data_get_data_with_length")]
+		public unowned uint8[] get_data ();
+	}
+
+	public class Style : GLib.Object {
+		[NoWrapper]
+		public virtual Gtk.Style clone ();
+		public Gtk.Style copy ();
+		[CCode (instance_pos = -1, vfunc_name = "copy")]
+		[NoWrapper]
+		public virtual void copy_to (Gtk.Style dest);
+	}
+
+	public struct TextAppearance {
+		public Gdk.Color bg_color;
+		public uint draw_bg;
+		public Gdk.Color fg_color;
+		public uint inside_selection;
+		public uint is_text;
+		public Gdk.RGBA? rgba[2];
+		public int rise;
+		public uint strikethrough;
+		public uint underline;
+	}
+
+	public class Widget : GLib.Object {
+		[NoWrapper, Deprecated, CCode (vfunc_name = "get_preferred_height_for_width")]
+		public virtual void get_preferred_height_for_width_internal (int width, out int minimum_height, out int natural_height);
+		[NoWrapper, Deprecated, CCode (vfunc_name = "get_preferred_height")]
+		public virtual void get_preferred_height_internal (out int minimum_height, out int natural_height);
+		[NoWrapper, Deprecated, CCode (vfunc_name = "get_preferred_width_for_height")]
+		public virtual void get_preferred_width_for_height_internal (int height, out int minimum_width, out int natural_width);
+		[NoWrapper, Deprecated, CCode (vfunc_name = "get_preferred_width")]
+		public virtual void get_preferred_width_internal (out int minimum_width, out int natural_width);
+	}
+
+	public interface Editable : GLib.Object {
+		[NoWrapper]
+		public abstract void do_insert_text (string new_text, int new_text_length, ref int position);
+		[NoWrapper]
+		public abstract void do_delete_text (int start_pos, int end_pos);
 	}
 
 	public struct BindingArg {
@@ -35,141 +82,44 @@ namespace Gtk {
 		public weak string string_data;
 	}
 
-	public struct Allocation : Gdk.Rectangle {
+	[Deprecated (since = "3.10")]
+	public static Gtk.IconSize icon_size_from_name (string name);
+	[Deprecated (since = "3.10")]
+	public static unowned string icon_size_get_name (Gtk.IconSize size);
+	public static bool icon_size_lookup (Gtk.IconSize size, out int width, out int height);
+	[Deprecated (since = "3.10")]
+	public static bool icon_size_lookup_for_settings (Gtk.Settings settings, Gtk.IconSize size, out int width, out int height);
+	[Deprecated (since = "3.10")]
+	public static Gtk.IconSize icon_size_register (string name, int width, int height);
+	[Deprecated (since = "3.10")]
+	public static void icon_size_register_alias (string alias, Gtk.IconSize target);
+
+	public enum NumberUpLayout {
+		[Deprecated (since = "vala-0.24", replacement = "LRTB")]
+		LEFT_TO_RIGHT_TOP_TO_BOTTOM,
+		[Deprecated (since = "vala-0.24", replacement = "LRBT")]
+		LEFT_TO_RIGHT_BOTTOM_TO_TOP,
+		[Deprecated (since = "vala-0.24", replacement = "RLTB")]
+		RIGHT_TO_LEFT_TOP_TO_BOTTOM,
+		[Deprecated (since = "vala-0.24", replacement = "RLBT")]
+		RIGHT_TO_LEFT_BOTTOM_TO_TOP,
+		[Deprecated (since = "vala-0.24", replacement = "TBLR")]
+		TOP_TO_BOTTOM_LEFT_TO_RIGHT,
+		[Deprecated (since = "vala-0.24", replacement = "TBRL")]
+		TOP_TO_BOTTOM_RIGHT_TO_LEFT,
+		[Deprecated (since = "vala-0.24", replacement = "BTLR")]
+		BOTTOM_TO_TOP_LEFT_TO_RIGHT,
+		[Deprecated (since = "vala-0.24", replacement = "BTRL")]
+		BOTTOM_TO_TOP_RIGHT_TO_LEFT
 	}
 
-	[Compact]
-	public class BindingSet {
-		public static unowned BindingSet @new (string name);
-	}
-
-	[CCode (type_id = "gtk_container_get_type ()")]
-	public abstract class Container {
-		[CCode (vfunc_name = "forall")]
-		[NoWrapper]
-		public virtual void forall_internal(bool include_internal, Gtk.Callback callback);
-	}
-
-	[CCode (type_id = "gtk_notebook_get_type ()")]
-	public class Notebook {
-		public int page_num (Widget child);
-	}
-
-	[CCode (type_id = "gtk_status_icon_get_type ()")]
-	public class StatusIcon {
-		[CCode (instance_pos = -1)]
-		public void position_menu (Gtk.Menu menu, out int x, out int y, out bool push_in);
-	}
-
-	[CCode (type_id = "gtk_ui_manager_get_type ()")]
-	public class UIManager {
-		public uint new_merge_id ();
-	}
-
-	[CCode (type_id = "gtk_widget_get_type ()")]
-	public class Widget {
-		[CCode (has_new_function = false, construct_function = "gtk_widget_new")]
-		public extern Widget (...);
-		public class uint activate_signal;
-		[CCode (vfunc_name = "get_preferred_height")]
-		[NoWrapper]
-		public virtual void get_preferred_height_internal (out int minimum_height, out int natural_height);
-		[CCode (vfunc_name = "get_preferred_width")]
-		[NoWrapper]
-		public virtual void get_preferred_width_internal (out int minimum_width, out int natural_width);
-		[CCode (vfunc_name = "compute_expand")]
-		[NoWrapper]
-		public virtual void compute_expand_internal (out bool hexpand, out bool vexpand);
-		[CCode (vfunc_name = "get_preferred_width_for_height")]
-		[NoWrapper]
-		public virtual void get_preferred_width_for_height_internal (int height, out int minimum_width, out int natural_width);
-		[CCode (vfunc_name = "get_preferred_height_for_width")]
-		[NoWrapper]
-		public virtual void get_preferred_height_for_width_internal (int width, out int minimum_height, out int natural_height);
-	}
-
-	public interface CellAccessibleParent : GLib.Object {
-	}
-
-	[CCode (type_cname = "GtkEditableInterface")]
-	public interface Editable : GLib.Object {
-		[CCode (vfunc_name = "set_selection_bounds")]
-		public abstract void select_region (int start_pos, int end_pos);
-	}
-
-	public interface FileChooserEmbed : GLib.Object {
-	}
-
-	public interface FileChooser: Gtk.Widget {
-		public GLib.SList<GLib.File> get_files ();
-	}
-
-	public interface StyleProvider : GLib.Object {
-	}
-
-	public interface TreeDragDest : GLib.Object {
-	}
-
-	public interface TreeDragSource : GLib.Object {
-	}
-
-	[CCode (cname = "gint")]
+	[CCode (cname = "gint", has_type_id = false)]
 	public enum SortColumn {
 		[CCode (cname = "GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID")]
 		DEFAULT,
 		[CCode (cname = "GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID")]
 		UNSORTED
 	}
-
-	[Deprecated (since = "3.0", replacement = "StyleContext")]
-	[CCode (cheader_filename = "gtk/gtk.h")]
-	public class Style {
-		[NoWrapper]
-		[CCode (instance_pos = -1, vfunc_name = "copy")]
-		public virtual void copy_to (Gtk.Style dest);
-	}
-
-	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_style_context_get_type ()")]
-	public class StyleContext {
-		[CCode (cname = "gtk_render_activity")]
-		public void render_activity (Cairo.Context cr, double x, double y, double width, double height);
-		[CCode (cname = "gtk_render_arrow")]
-		public void render_arrow (Cairo.Context cr, double angle, double x, double y, double size);
-		[CCode (cname = "gtk_render_background")]
-		public void render_background (Cairo.Context cr, double x, double y, double width, double height);
-		[CCode (cname = "gtk_render_check")]
-		public void render_check (Cairo.Context cr, double x, double y, double width, double height);
-		[CCode (cname = "gtk_render_expander")]
-		public void render_expander (Cairo.Context cr, double x, double y, double width, double height);
-		[CCode (cname = "gtk_render_extension")]
-		public void render_extension (Cairo.Context cr, double x, double y, double width, double height, Gtk.PositionType gap_side);
-		[CCode (cname = "gtk_render_focus")]
-		public void render_focus (Cairo.Context cr, double x, double y, double width, double height);
-		[CCode (cname = "gtk_render_frame")]
-		public void render_frame (Cairo.Context cr, double x, double y, double width, double height);
-		[CCode (cname = "gtk_render_frame_gap")]
-		public void render_frame_gap (Cairo.Context cr, double x, double y, double width, double height, Gtk.PositionType gap_side, double xy0_gap, double xy1_gap);
-		[CCode (cname = "gtk_render_handle")]
-		public void render_handle (Cairo.Context cr, double x, double y, double width, double height);
-		[CCode (cname = "gtk_render_icon")]
-		public void render_icon (Cairo.Context cr, Gdk.Pixbuf pixbuf, double x, double y);
-		[CCode (cname = "gtk_render_icon_pixbuf")]
-		public Gdk.Pixbuf render_icon_pixbuf (Gtk.IconSource source, Gtk.IconSize size);
-		[CCode (cname = "gtk_render_layout")]
-		public void render_layout (Cairo.Context cr, double x, double y, Pango.Layout layout);
-		[CCode (cname = "gtk_render_line")]
-		public void render_line (Cairo.Context cr, double x0, double y0, double x1, double y1);
-		[CCode (cname = "gtk_render_option")]
-		public void render_option (Cairo.Context cr, double x, double y, double width, double height);
-		[CCode (cname = "gtk_render_slider")]
-		public void render_slider (Cairo.Context cr, double x, double y, double width, double height, Gtk.Orientation orientation);
-	}
-
-	[CCode (type_cname = "GCallback")]
-	public delegate void ActionCallback (Action action);
-
-	[CCode (type_cname = "GCallback")]
-	public delegate void RadioActionCallback (Action action, Action current);
 
 	[Deprecated (since = "vala-0.12", replacement = "Gtk.Stock.ABOUT")]
 	public const string STOCK_ABOUT;
@@ -382,23 +332,53 @@ namespace Gtk {
 	[Deprecated (since = "vala-0.12", replacement = "Gtk.Stock.ZOOM_OUT")]
 	public const string STOCK_ZOOM_OUT;
 
-	[Deprecated (since = "vala-0.12", replacement = "Gtk.Stock.add")]
-	public static void stock_add (Gtk.StockItem[] items);
-	[Deprecated (since = "vala-0.12", replacement = "Gtk.Stock.add_static")]
-	public static void stock_add_static (Gtk.StockItem[] items);
-	[Deprecated (since = "vala-0.12", replacement = "Gtk.Stock.list_ids")]
-	public static GLib.SList<string> stock_list_ids ();
+	public static void drag_dest_set (Gtk.Widget widget, Gtk.DestDefaults flags, Gtk.TargetEntry[] targets, Gdk.DragAction actions);
+	public static void drag_source_set (Gtk.Widget widget, Gdk.ModifierType start_button_mask, Gtk.TargetEntry[] targets, Gdk.DragAction actions);
 
-	[Deprecated (since = "vala-0.22", replacement = "Gtk.Stock.set_translate_func")]
+	[Deprecated (replacement = "StyleContext.render_focus", since = "vala-0.16")]
+	public static void render_focus (Gtk.StyleContext context, Cairo.Context cr, double x, double y, double width, double height);
+	[Deprecated (replacement = "StyleContext.render_frame", since = "vala-0.16")]
+	public static void render_frame (Gtk.StyleContext context, Cairo.Context cr, double x, double y, double width, double height);
+	[Deprecated (replacement = "StyleContext.render_frame_gap", since = "vala-0.16")]
+	public static void render_frame_gap (Gtk.StyleContext context, Cairo.Context cr, double x, double y, double width, double height, Gtk.PositionType gap_side, double xy0_gap, double xy1_gap);
+	[Deprecated (replacement = "StyleContext.render_handle", since = "vala-0.16")]
+	public static void render_handle (Gtk.StyleContext context, Cairo.Context cr, double x, double y, double width, double height);
+	[Deprecated (replacement = "StyleContext.render_icon", since = "vala-0.16")]
+	public static void render_icon (Gtk.StyleContext context, Cairo.Context cr, Gdk.Pixbuf pixbuf, double x, double y);
+	[Deprecated (replacement = "StyleContext.render_icon_pixbuf", since = "vala-0.16")]
+	public static unowned Gdk.Pixbuf render_icon_pixbuf (Gtk.StyleContext context, Gtk.IconSource source, Gtk.IconSize size);
+	public static void render_icon_surface (Gtk.StyleContext context, Cairo.Context cr, Cairo.Surface surface, double x, double y);
+	public static void render_insertion_cursor (Gtk.StyleContext context, Cairo.Context cr, double x, double y, Pango.Layout layout, int index, Pango.Direction direction);
+	[Deprecated (replacement = "StyleContext.render_layout", since = "vala-0.16")]
+	public static void render_layout (Gtk.StyleContext context, Cairo.Context cr, double x, double y, Pango.Layout layout);
+	[Deprecated (replacement = "StyleContext.render_activity", since = "vala-0.16")]
+	public static void render_activity (Gtk.StyleContext context, Cairo.Context cr, double x, double y, double width, double height);
+	[Deprecated (replacement = "StyleContext.render_arrow", since = "vala-0.16")]
+	public static void render_arrow (Gtk.StyleContext context, Cairo.Context cr, double angle, double x, double y, double size);
+	[Deprecated (replacement = "StyleContext.render_background", since = "vala-0.16")]
+	public static void render_background (Gtk.StyleContext context, Cairo.Context cr, double x, double y, double width, double height);
+	[Deprecated (replacement = "StyleContext.render_check", since = "vala-0.16")]
+	public static void render_check (Gtk.StyleContext context, Cairo.Context cr, double x, double y, double width, double height);
+	[Deprecated (replacement = "StyleContext.render_expander", since = "vala-0.16")]
+	public static void render_expander (Gtk.StyleContext context, Cairo.Context cr, double x, double y, double width, double height);
+	[Deprecated (replacement = "StyleContext.render_extension", since = "vala-0.16")]
+	public static void render_extension (Gtk.StyleContext context, Cairo.Context cr, double x, double y, double width, double height, Gtk.PositionType gap_side);
+	[Deprecated (replacement = "StyleContext.render_line", since = "vala-0.16")]
+	public static void render_line (Gtk.StyleContext context, Cairo.Context cr, double x0, double y0, double x1, double y1);
+	[CCode (cheader_filename = "gtk/gtk.h")]
+	[Deprecated (replacement = "StyleContext.render_option", since = "vala-0.16")]
+	public static void render_option (Gtk.StyleContext context, Cairo.Context cr, double x, double y, double width, double height);
+	[CCode (cheader_filename = "gtk/gtk.h")]
+	[Deprecated (replacement = "StyleContext.render_slider", since = "vala-0.16")]
+	public static void render_slider (Gtk.StyleContext context, Cairo.Context cr, double x, double y, double width, double height, Gtk.Orientation orientation);
+
+	[Deprecated (replacement = "Gtk.Stock.add", since = "vala-0.12")]
+	public static void stock_add (Gtk.StockItem[] items);
+	[Deprecated (replacement = "Gtk.Stock.add_static", since = "vala-0.12")]
+	public static void stock_add_static (Gtk.StockItem[] items);
+	[Deprecated (replacement = "Gtk.Stock.list_ids", since = "vala-0.12")]
+	public static GLib.SList<string> stock_list_ids ();
+	[Deprecated (replacement = "Gtk.Stock.set_translate_func", since = "vala-0.22")]
 	public static void stock_set_translate_func (string domain, owned Gtk.TranslateFunc func);
 
-	[Deprecated (since = "3.10")]
-	[CCode (cheader_filename = "gtk/gtk.h")]
-	namespace Stock {
-		public static void add (Gtk.StockItem[] items);
-		public static void add_static (Gtk.StockItem[] items);
-		public static GLib.SList<string> list_ids ();
-		public static bool lookup (string stock_id, out Gtk.StockItem item);
-		public static void set_translate_func (string domain, owned Gtk.TranslateFunc func);
-	}
 }
