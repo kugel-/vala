@@ -14,21 +14,25 @@ namespace Gst {
 		}
 		[CCode (cheader_filename = "gst/check/check.h", cname = "GstTestClock", lower_case_cprefix = "gst_test_clock_", type_id = "gst_test_clock_get_type ()")]
 		[GIR (name = "TestClock")]
+		[Version (since = "1.2")]
 		public class TestClock : Gst.Clock {
 			[CCode (has_construct_function = false, type = "GstClock*")]
 			public TestClock ();
 			public void advance_time (Gst.ClockTimeDiff delta);
 			public Gst.ClockTime get_next_entry_time ();
 			public bool has_id (Gst.ClockID id);
+			[Version (since = "1.4")]
 			public static Gst.ClockTime id_list_get_latest_time (GLib.List<Gst.ClockID?>? pending_list);
 			public uint peek_id_count ();
 			public bool peek_next_pending_id (out Gst.ClockID pending_id);
+			[Version (since = "1.4")]
 			public uint process_id_list (GLib.List<Gst.ClockID?>? pending_list);
 			public Gst.ClockID process_next_clock_id ();
 			public void set_time (Gst.ClockTime new_time);
+			[Version (since = "1.4")]
 			public void wait_for_multiple_pending_ids (uint count, out GLib.List<Gst.ClockID?> pending_list);
 			public void wait_for_next_pending_id (out Gst.ClockID pending_id);
-			[Deprecated]
+			[Version (deprecated = true, since = "1.2")]
 			public void wait_for_pending_id_count (uint count);
 			[CCode (has_construct_function = false, type = "GstClock*")]
 			public TestClock.with_start_time (Gst.ClockTime start_time);
@@ -77,16 +81,20 @@ namespace Gst {
 		[CCode (cheader_filename = "gst/check/check.h")]
 		public static Gst.Pad setup_sink_pad_by_name (Gst.Element element, Gst.StaticPadTemplate tmpl, string name);
 		[CCode (cheader_filename = "gst/check/check.h")]
+		[Version (since = "1.4")]
 		public static Gst.Pad setup_sink_pad_by_name_from_template (Gst.Element element, Gst.PadTemplate tmpl, string name);
 		[CCode (cheader_filename = "gst/check/check.h")]
+		[Version (since = "1.4")]
 		public static Gst.Pad setup_sink_pad_from_template (Gst.Element element, Gst.PadTemplate tmpl);
 		[CCode (cheader_filename = "gst/check/check.h")]
 		public static Gst.Pad setup_src_pad (Gst.Element element, Gst.StaticPadTemplate tmpl);
 		[CCode (cheader_filename = "gst/check/check.h")]
 		public static Gst.Pad setup_src_pad_by_name (Gst.Element element, Gst.StaticPadTemplate tmpl, string name);
 		[CCode (cheader_filename = "gst/check/check.h")]
+		[Version (since = "1.4")]
 		public static Gst.Pad setup_src_pad_by_name_from_template (Gst.Element element, Gst.PadTemplate tmpl, string name);
 		[CCode (cheader_filename = "gst/check/check.h")]
+		[Version (since = "1.4")]
 		public static Gst.Pad setup_src_pad_from_template (Gst.Element element, Gst.PadTemplate tmpl);
 		[CCode (cheader_filename = "gst/check/check.h")]
 		public static void teardown_element (Gst.Element element);

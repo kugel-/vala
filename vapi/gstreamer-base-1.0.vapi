@@ -12,6 +12,7 @@ namespace Gst {
 			public size_t available_fast ();
 			public void clear ();
 			public void copy ([CCode (array_length_cname = "size", array_length_pos = 2.1, array_length_type = "gsize")] out unowned uint8[] dest, size_t offset);
+			[Version (since = "1.4")]
 			public GLib.Bytes copy_bytes (size_t offset, size_t size);
 			public void flush (size_t flush);
 			[CCode (array_length_pos = 0.1, array_length_type = "gsize")]
@@ -19,13 +20,16 @@ namespace Gst {
 			public ssize_t masked_scan_uint32 (uint32 mask, uint32 pattern, size_t offset, size_t size);
 			public ssize_t masked_scan_uint32_peek (uint32 mask, uint32 pattern, size_t offset, size_t size, out uint32 value);
 			public Gst.ClockTime prev_dts (out uint64 distance);
+			[Version (since = "1.2")]
 			public Gst.ClockTime prev_dts_at_offset (size_t offset, out uint64 distance);
 			public Gst.ClockTime prev_pts (out uint64 distance);
+			[Version (since = "1.2")]
 			public Gst.ClockTime prev_pts_at_offset (size_t offset, out uint64 distance);
 			public void push (owned Gst.Buffer buf);
 			[CCode (array_length_pos = 0.1, array_length_type = "gsize")]
 			public uint8[]? take ();
 			public Gst.Buffer? take_buffer (size_t nbytes);
+			[Version (since = "1.2")]
 			public Gst.Buffer? take_buffer_fast (size_t nbytes);
 			public GLib.List<Gst.Buffer>? take_list (size_t nbytes);
 			public void unmap ();
@@ -315,6 +319,7 @@ namespace Gst {
 			public bool remove_pad (Gst.Pad pad);
 			public void set_flushing (bool flushing);
 			public void set_waiting (Gst.Base.CollectData data, bool waiting);
+			[Version (since = "1.4")]
 			public bool src_event_default (Gst.Pad pad, Gst.Event event);
 			public void start ();
 			public void stop ();
@@ -339,6 +344,7 @@ namespace Gst {
 		[CCode (cheader_filename = "gst/base/base.h", cname = "GstFlowCombiner", copy_function = "g_boxed_copy", free_function = "g_boxed_free", lower_case_cprefix = "gst_flow_combiner_", type_id = "gst_flow_combiner_get_type ()")]
 		[Compact]
 		[GIR (name = "FlowCombiner")]
+		[Version (since = "1.4")]
 		public class FlowCombiner {
 			[CCode (has_construct_function = false)]
 			public FlowCombiner ();
@@ -382,6 +388,7 @@ namespace Gst {
 			[NoWrapper]
 			public virtual bool set_sink_caps (Gst.Caps caps);
 			public void set_syncable (bool syncable);
+			[Version (since = "1.2")]
 			public void set_ts_at_offset (size_t offset);
 			[NoWrapper]
 			public virtual bool sink_event (Gst.Event event);
@@ -454,6 +461,7 @@ namespace Gst {
 			public virtual Gst.Caps get_caps (Gst.Caps filter);
 			public Gst.Sample? get_last_sample ();
 			public Gst.ClockTime get_latency ();
+			[Version (since = "1.2")]
 			public uint64 get_max_bitrate ();
 			public int64 get_max_lateness ();
 			public Gst.ClockTime get_render_delay ();
@@ -485,6 +493,7 @@ namespace Gst {
 			[NoWrapper]
 			public virtual bool set_caps (Gst.Caps caps);
 			public void set_last_sample_enabled (bool enabled);
+			[Version (since = "1.2")]
 			public void set_max_bitrate (uint64 max_bitrate);
 			public void set_max_lateness (int64 max_lateness);
 			public void set_qos_enabled (bool enabled);
@@ -511,6 +520,7 @@ namespace Gst {
 			[NoAccessorMethod]
 			public bool enable_last_sample { get; set; }
 			public Gst.Sample last_sample { owned get; }
+			[Version (since = "1.2")]
 			public uint64 max_bitrate { get; set; }
 			public int64 max_lateness { get; set; }
 			[NoAccessorMethod]
@@ -573,6 +583,7 @@ namespace Gst {
 			public virtual bool query (Gst.Query query);
 			public bool query_latency (out bool live, out Gst.ClockTime min_latency, out Gst.ClockTime max_latency);
 			public void set_async (bool @async);
+			[Version (since = "1.4")]
 			public void set_automatic_eos (bool automatic_eos);
 			public void set_blocksize (uint blocksize);
 			public virtual bool set_caps (Gst.Caps caps);
@@ -639,6 +650,7 @@ namespace Gst {
 			public void set_gap_aware (bool gap_aware);
 			public void set_in_place (bool in_place);
 			public void set_passthrough (bool passthrough);
+			[Version (since = "1.0.1")]
 			public void set_prefer_passthrough (bool prefer_passthrough);
 			public void set_qos_enabled (bool enabled);
 			[NoWrapper]
@@ -712,6 +724,7 @@ namespace Gst {
 		[CCode (cheader_filename = "gst/base/base.h", cname = "GstCollectPadsEventFunction", instance_pos = 3.9)]
 		public delegate bool CollectPadsEventFunction (Gst.Base.CollectPads pads, Gst.Base.CollectData pad, Gst.Event event);
 		[CCode (cheader_filename = "gst/base/base.h", cname = "GstCollectPadsFlushFunction", instance_pos = 1.9)]
+		[Version (since = "1.4")]
 		public delegate void CollectPadsFlushFunction (Gst.Base.CollectPads pads);
 		[CCode (cheader_filename = "gst/base/base.h", cname = "GstCollectPadsFunction", instance_pos = 1.9)]
 		public delegate Gst.FlowReturn CollectPadsFunction (Gst.Base.CollectPads pads);

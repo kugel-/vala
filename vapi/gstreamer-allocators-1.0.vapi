@@ -6,12 +6,16 @@ namespace Gst {
 		[CCode (cheader_filename = "gst/allocators/allocators.h", cname = "GST_ALLOCATOR_DMABUF")]
 		public const string ALLOCATOR_DMABUF;
 		[CCode (cheader_filename = "gst/allocators/allocators.h", cname = "gst_dmabuf_allocator_alloc")]
+		[Version (since = "1.2")]
 		public static Gst.Memory dmabuf_allocator_alloc (Gst.Allocator? allocator, int fd, size_t size);
 		[CCode (cheader_filename = "gst/allocators/allocators.h", cname = "gst_dmabuf_allocator_new")]
+		[Version (since = "1.2")]
 		public static Gst.Allocator dmabuf_allocator_new ();
 		[CCode (cheader_filename = "gst/allocators/allocators.h", cname = "gst_dmabuf_memory_get_fd")]
+		[Version (since = "1.2")]
 		public static int dmabuf_memory_get_fd (Gst.Memory mem);
 		[CCode (cheader_filename = "gst/allocators/allocators.h", cname = "gst_is_dmabuf_memory")]
+		[Version (since = "1.2")]
 		public static bool is_dmabuf_memory (Gst.Memory mem);
 	}
 }

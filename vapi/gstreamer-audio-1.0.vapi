@@ -258,6 +258,7 @@ namespace Gst {
 			public void free ();
 			public bool from_caps (Gst.Caps caps);
 			public void init ();
+			[Version (since = "1.2")]
 			public bool is_equal (Gst.Audio.Info other);
 			public void set_format (Gst.Audio.Format format, int rate, int channels, Gst.Audio.ChannelPosition position);
 			public Gst.Caps to_caps ();
@@ -610,8 +611,10 @@ namespace Gst {
 		[CCode (cheader_filename = "gst/audio/audio.h", cname = "GST_AUDIO_FORMATS_ALL")]
 		public const string FORMATS_ALL;
 		[CCode (cheader_filename = "gst/audio/audio.h", cname = "GST_META_TAG_AUDIO_CHANNELS_STR")]
+		[Version (since = "1.2")]
 		public const string META_TAG_AUDIO_CHANNELS_STR;
 		[CCode (cheader_filename = "gst/audio/audio.h", cname = "GST_META_TAG_AUDIO_STR")]
+		[Version (since = "1.2")]
 		public const string META_TAG_AUDIO_STR;
 		[CCode (cheader_filename = "gst/audio/audio.h", cname = "GST_AUDIO_RATE_RANGE")]
 		public const string RATE_RANGE;

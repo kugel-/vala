@@ -108,6 +108,7 @@ namespace Gst {
 			public uint32 get_csrc (uint8 idx);
 			public uint8 get_csrc_count ();
 			public bool get_extension ();
+			[Version (since = "1.2")]
 			public GLib.Bytes get_extension_bytes (out uint16 bits);
 			public bool get_extension_data (out uint16 bits, [CCode (array_length = false)] out unowned uint8[] data, out uint wordlen);
 			public bool get_extension_onebyte_header (uint8 id, uint nth, [CCode (array_length_cname = "size", array_length_pos = 3.1, array_length_type = "guint")] out unowned uint8[] data);
@@ -119,6 +120,7 @@ namespace Gst {
 			[CCode (array_length = false)]
 			public unowned uint8[] get_payload ();
 			public Gst.Buffer get_payload_buffer ();
+			[Version (since = "1.2")]
 			public GLib.Bytes get_payload_bytes ();
 			public uint get_payload_len ();
 			public Gst.Buffer get_payload_subbuffer (uint offset, uint len);

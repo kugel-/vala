@@ -86,11 +86,14 @@ namespace Gst {
 			public void get_latency (out Gst.ClockTime min_latency, out Gst.ClockTime max_latency);
 			public Gst.ClockTimeDiff get_max_decode_time (Gst.Video.CodecFrame frame);
 			public int get_max_errors ();
+			[Version (since = "1.4")]
 			public bool get_needs_format ();
 			public Gst.Video.CodecFrame get_oldest_frame ();
 			public Gst.Video.CodecState get_output_state ();
 			public bool get_packetized ();
+			[Version (since = "1.4")]
 			public size_t get_pending_frame_size ();
+			[Version (since = "1.0.3")]
 			public double get_qos_proportion ();
 			[NoWrapper]
 			public virtual Gst.FlowReturn handle_frame (Gst.Video.CodecFrame frame);
@@ -103,6 +106,7 @@ namespace Gst {
 			public virtual Gst.FlowReturn parse (Gst.Video.CodecFrame frame, Gst.Base.Adapter adapter, bool at_eos);
 			[NoWrapper]
 			public virtual bool propose_allocation (Gst.Query query);
+			[Version (since = "1.2.2")]
 			public void release_frame (owned Gst.Video.CodecFrame frame);
 			[NoWrapper]
 			public virtual bool reset (bool hard);
@@ -111,6 +115,7 @@ namespace Gst {
 			public virtual bool set_format (Gst.Video.CodecState state);
 			public void set_latency (Gst.ClockTime min_latency, Gst.ClockTime max_latency);
 			public void set_max_errors (int num);
+			[Version (since = "1.4")]
 			public void set_needs_format (bool enabled);
 			public Gst.Video.CodecState set_output_state (Gst.Video.Format fmt, uint width, uint height, Gst.Video.CodecState? reference);
 			public void set_packetized (bool packetized);
@@ -777,6 +782,7 @@ namespace Gst {
 		[CCode (cheader_filename = "gst/video/video.h", cname = "GST_BUFFER_POOL_OPTION_VIDEO_ALIGNMENT")]
 		public const string BUFFER_POOL_OPTION_VIDEO_ALIGNMENT;
 		[CCode (cheader_filename = "gst/video/video.h", cname = "GST_BUFFER_POOL_OPTION_VIDEO_GL_TEXTURE_UPLOAD_META")]
+		[Version (since = "1.2.2")]
 		public const string BUFFER_POOL_OPTION_VIDEO_GL_TEXTURE_UPLOAD_META;
 		[CCode (cheader_filename = "gst/video/video.h", cname = "GST_BUFFER_POOL_OPTION_VIDEO_META")]
 		public const string BUFFER_POOL_OPTION_VIDEO_META;
@@ -829,14 +835,19 @@ namespace Gst {
 		[CCode (cheader_filename = "gst/video/video.h", cname = "GST_VIDEO_MAX_PLANES")]
 		public const int MAX_PLANES;
 		[CCode (cheader_filename = "gst/video/video.h", cname = "GST_META_TAG_VIDEO_COLORSPACE_STR")]
+		[Version (since = "1.2")]
 		public const string META_TAG_VIDEO_COLORSPACE_STR;
 		[CCode (cheader_filename = "gst/video/video.h", cname = "GST_META_TAG_VIDEO_ORIENTATION_STR")]
+		[Version (since = "1.2")]
 		public const string META_TAG_VIDEO_ORIENTATION_STR;
 		[CCode (cheader_filename = "gst/video/video.h", cname = "GST_META_TAG_VIDEO_SIZE_STR")]
+		[Version (since = "1.2")]
 		public const string META_TAG_VIDEO_SIZE_STR;
 		[CCode (cheader_filename = "gst/video/video.h", cname = "GST_META_TAG_VIDEO_STR")]
+		[Version (since = "1.2")]
 		public const string META_TAG_VIDEO_STR;
 		[CCode (cheader_filename = "gst/video/video.h", cname = "GST_VIDEO_OVERLAY_COMPOSITION_BLEND_FORMATS")]
+		[Version (since = "1.2")]
 		public const string OVERLAY_COMPOSITION_BLEND_FORMATS;
 		[CCode (cheader_filename = "gst/video/video.h", cname = "GST_VIDEO_SIZE_RANGE")]
 		public const string SIZE_RANGE;
@@ -895,6 +906,7 @@ namespace Gst {
 		[CCode (cheader_filename = "gst/video/video.h")]
 		public static unowned Gst.Video.FormatInfo? format_get_info (Gst.Video.Format format);
 		[CCode (cheader_filename = "gst/video/video.h")]
+		[Version (since = "1.2")]
 		public static void* format_get_palette (Gst.Video.Format format, out size_t size);
 		[CCode (cheader_filename = "gst/video/video.h")]
 		public static uint32 format_to_fourcc (Gst.Video.Format format);
@@ -959,6 +971,7 @@ namespace Gst {
 		[CCode (cheader_filename = "gst/video/video.h")]
 		public static unowned Gst.MetaInfo? region_of_interest_meta_get_info ();
 		[CCode (cheader_filename = "gst/video/video.h")]
+		[Version (since = "1.4")]
 		public static uint tile_get_index (Gst.Video.TileMode mode, int x, int y, int x_tiles, int y_tiles);
 	}
 }

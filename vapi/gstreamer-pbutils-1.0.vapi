@@ -79,9 +79,10 @@ namespace Gst {
 			public GLib.List<Gst.PbUtils.DiscovererStreamInfo> get_audio_streams ();
 			public GLib.List<Gst.PbUtils.DiscovererStreamInfo> get_container_streams ();
 			public Gst.ClockTime get_duration ();
-			[Deprecated]
+			[Version (deprecated = true)]
 			public unowned Gst.Structure get_misc ();
 			[CCode (array_length = false, array_null_terminated = true)]
+			[Version (since = "1.4")]
 			public string[] get_missing_elements_installer_details ();
 			public Gst.PbUtils.DiscovererResult get_result ();
 			public bool get_seekable ();
@@ -100,7 +101,7 @@ namespace Gst {
 			[CCode (has_construct_function = false)]
 			protected DiscovererStreamInfo ();
 			public Gst.Caps get_caps ();
-			[Deprecated]
+			[Version (deprecated = true)]
 			public unowned Gst.Structure get_misc ();
 			public Gst.PbUtils.DiscovererStreamInfo get_next ();
 			public Gst.PbUtils.DiscovererStreamInfo get_previous ();

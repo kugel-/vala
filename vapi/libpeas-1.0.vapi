@@ -16,6 +16,7 @@ namespace Peas {
 		public string[] get_loaded_plugins ();
 		public unowned Peas.PluginInfo get_plugin_info (string plugin_name);
 		public unowned GLib.List<Peas.PluginInfo> get_plugin_list ();
+		[Version (since = "1.6")]
 		public void prepend_search_path (string module_dir, string? data_dir);
 		public bool provides_extension (Peas.PluginInfo info, GLib.Type extension_type);
 		public void rescan_plugins ();
@@ -25,10 +26,12 @@ namespace Peas {
 		[CCode (cname = "peas_engine_unload_plugin")]
 		public bool try_unload_plugin (Peas.PluginInfo info);
 		[CCode (has_construct_function = false)]
+		[Version (since = "1.14")]
 		public Engine.with_nonglobal_loaders ();
 		[CCode (array_length = false, array_null_terminated = true)]
 		public string[] loaded_plugins { owned get; set; }
 		[NoAccessorMethod]
+		[Version (since = "2.14")]
 		public bool nonglobal_loaders { get; construct; }
 		public void* plugin_list { get; }
 		public virtual signal void load_plugin (Peas.PluginInfo info);
@@ -54,6 +57,7 @@ namespace Peas {
 		public ExtensionSet (Peas.Engine? engine, GLib.Type exten_type, ...);
 		[NoWrapper]
 		public virtual bool call (string method_name, GI.Argument args);
+		[Version (since = "1.2")]
 		public void @foreach (Peas.ExtensionSetForeachFunc func);
 		public unowned Peas.Extension get_extension (Peas.PluginInfo info);
 		[CCode (cname = "peas_extension_set_newv", has_construct_function = false)]
@@ -121,6 +125,7 @@ namespace Peas {
 		public static GLib.Quark quark ();
 	}
 	[CCode (cheader_filename = "libpeas/peas.h", instance_pos = 3.9)]
+	[Version (since = "1.2")]
 	public delegate void ExtensionSetForeachFunc (Peas.ExtensionSet @set, Peas.PluginInfo info, Peas.Extension exten);
 	[CCode (cheader_filename = "libpeas/peas.h", instance_pos = 1.9)]
 	public delegate GLib.Object FactoryFunc ([CCode (array_length_cname = "n_parameters", array_length_pos = 0.5, array_length_type = "guint")] GLib.Parameter[] parameters);
