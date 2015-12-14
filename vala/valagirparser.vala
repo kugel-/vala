@@ -732,6 +732,9 @@ public class Vala.GirParser : CodeVisitor {
 			var cname = symbol.get_attribute_string ("CCode", "cname");
 			if (girdata != null) {
 				if (cname == null) {
+					cname = girdata["shadowed-by"];
+				}
+				if (cname == null) {
 					cname = girdata["c:identifier"];
 				}
 				if (cname == null) {
